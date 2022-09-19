@@ -202,7 +202,7 @@ The fraction of true predictions from all predictions:
 
 $\frac{TP+TN}{TP+TN+FP+FN}$
 
-# Find Lower and Upper Threshold
+# Find Lower and Upper Thresholds
 
 Run `find_2_thresholds.ipynb`
 
@@ -210,7 +210,15 @@ The algorithm is explained inside the notebok, before the core-algorithm functio
 
 <img width="679" alt="image" src="https://user-images.githubusercontent.com/29920854/191006922-12889632-6222-489c-882e-b235d60629ab.png">
 
+Before running set the actual model and dataset paths:
 
+<img width="646" alt="image" src="https://user-images.githubusercontent.com/29920854/191009109-516c9bd1-4ab7-45b5-9c0a-3cbaff8d44a0.png">
+
+The algorithm's recommended lower and upper thresholds are printed as output:
+
+<img width="339" alt="image" src="https://user-images.githubusercontent.com/29920854/191009831-87133d24-0750-4e2b-9920-cdd7fc1b2811.png">
+
+For use in the model deployment - take the value rounded into 2 digits after the decimal point (0.xx). 
 
 	
 	
