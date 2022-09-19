@@ -202,6 +202,13 @@ The fraction of true predictions from all predictions:
 
 $\frac{TP+TN}{TP+TN+FP+FN}$
 
+# Find Lower and Upper Threshold
+
+Run `find_2_thresholds.ipynb`
+
+The algorithm is explained inside the notebok, before the core-algorithm function `find_thresholds`:
+
+<img width="679" alt="image" src="https://user-images.githubusercontent.com/29920854/191006922-12889632-6222-489c-882e-b235d60629ab.png">
 
 
 
