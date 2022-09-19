@@ -137,14 +137,14 @@
 
   <img width="533" alt="image" src="https://user-images.githubusercontent.com/29920854/190916941-82bac11b-da95-440b-bead-c68748217609.png">
 
-	A full training fo 30 epochs may take 5 hours.
+	A full training of 30 epochs may take 5 hours.
 21. When training is resumed, see the s3 model's path from the training dashboard:
 
   <img width="400" alt="image" src="https://user-images.githubusercontent.com/29920854/190917414-bff40097-7639-4d93-a8c4-845e52ae6a1c.png">
 
 
 	Browse to the location in s3
-	Checmark the model & download it 
+	Checkmark the model & download it 
 	Copy the model to .../cs_video_processor/models/
 22. Run `model_evaluation_custom_pp.ipynb`
 
