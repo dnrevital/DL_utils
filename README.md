@@ -37,22 +37,44 @@
 
 	a. mkdir `opposite_src`
   
-	b. run `remove_mask_multi.ipynb`
+	b. open `remove_mask_multi.ipynb`, in the Settings section set the src_dir and dst_dir as follows:
+	
+	src_dir = <.../mask_train_opposite>,
+	dst_dir = <.../opposite_src> -
+	
+	in addition, comment/uncomment lines 3 to 10 as follows:
+	
+	<img width="350" alt="image" src="https://user-images.githubusercontent.com/29920854/191482265-24c17b1c-2133-4854-b16f-219d2135e5d6.png">
+	
+	and run it.
   
-        `opposite_src` now contains opposite candidated images without mask_train
+        opposite_src now contains opposite candidated images without the mask
   
 	c. mkdir `opposite_dst`
   
-	d. run `create_opposite.ipynb`
+	d. open `create_opposite.ipynb`, in the Settings section set dataset_dir according to your dataset path, and run it.
+	
 11. mkdir `no_mask_train`
 ```
    /obstacle
    /no_obstacle
  ```
 12. If opposite:
-		copy contents of `opposite_dts/` to corresponding category in no_mask_train/
-13. run `remove_mask_multi.ipynb`.
-		now `no_mask_train` contains `obstacle/` and `no_obstacle/` ready for training, without mask.
+		copy contents of `opposite_dst/` to corresponding category in no_mask_train/
+13. open `remove_mask_multi.ipynb`.
+
+    In the Settings section:
+    
+    set src_dir to .../mask_train
+    
+    set dst_dir to .../no_mask_train
+    
+    comment/uncomment lines 3 to 10 as follows:
+    
+    <img width="370" alt="image" src="https://user-images.githubusercontent.com/29920854/191488553-fb1aac08-ab9f-4915-9395-709e54e5cb18.png">
+
+    now `no_mask_train` contains `obstacle/` and `no_obstacle/` ready for training, without mask.
+		
 14. mkdir `eval`
 ```
    /obstacle
@@ -60,26 +82,33 @@
 ```
 15. Run `create_test_dataset.ipynb`
 
+	In the Settings section:
+	
+	set dataset_dir according to the path of your dataset
+
 	The input datasets should be: train: `../no_mask_train`, eval: `../eval`.
   
 	Splits the train dataset into 90%/10%, the 10% is moved from the train dataset to the eval dataset.
   
 	The % is configurable inside the `create_test_dataset` notebook. 
-16. Run `sample_weights_multi.ipynb` to create the new dataset
+16. Copy all images from `.../no_mask_train.obstacle` and `.../no_mask_train_no_obstacle` to `rgb_6_balanced/sites/<name of the site where images were sourced>`.
+17. Copy the images from `.../no_mask_train/obstacle` and `.../no_mask_train/no_obstacle` to `rgb_6_balanced/train/obstacle` and `rgb_6_balanced/train/no_obstacle`, correspodingly.
+18. Copy the images from `.../eval/obstacle` and `.../eval/no_obstacle` to `rgb_6_balanced/eval/ostacle` and `rgb_6_balanced/eval/no_obstacle`, correspondigly.
+19. Run `sample_weights_multi.ipynb` to create the new dataset
 
 	Name the new dataset in the Settings section, under "out folder = ...".
   
 	Set the parameters under "# Parameters used in the diff_metric to diff_coef assignent function"
 	        as required (see the [TBD] separate documentation on the sample_weights parameters and their effect on sample_weight values)
-17. In s3: make a new folder under the `obstacles-classification` bucket.
+20. In s3: make a new folder under the `obstacles-classification` bucket.
 
 	The new folder's name should be exactly as the new dataset's name assigned in # 16 under "out_folder = ...". 
-18. Upload the dataset to s3 from the Ubuntu terminal's command_line interface, using:
+21. Upload the dataset to s3 from the Ubuntu terminal's command_line interface, using:
 
 	`cd ../<one directory above the newly created dataset>`
   
 	`aws s3 cp --recursive <dataset_name>/ s3://obstacles-classification/<dataset_name>/`
-19. From the browser: 
+22. From the browser: 
 
   Browse AWS. 
   
@@ -119,7 +148,7 @@
   
   <img width="328" alt="image" src="https://user-images.githubusercontent.com/29920854/190914303-03339017-56dc-4555-8e60-7eab922db184.png">
 
-20. Open the Training Dashboard to trace the training's progress:
+23. Open the Training Dashboard to trace the training's progress:
 
   <img width="320" alt="image" src="https://user-images.githubusercontent.com/29920854/190916378-557a6787-e408-4a31-99c8-740f25338206.png">
 
@@ -138,7 +167,7 @@
   <img width="533" alt="image" src="https://user-images.githubusercontent.com/29920854/190916941-82bac11b-da95-440b-bead-c68748217609.png">
 
 	A full training of 30 epochs may take 5 hours.
-21. When training is resumed, see the s3 model's path from the training dashboard:
+24. When training is resumed, see the s3 model's path from the training dashboard:
 
   <img width="400" alt="image" src="https://user-images.githubusercontent.com/29920854/190917414-bff40097-7639-4d93-a8c4-845e52ae6a1c.png">
 
@@ -146,7 +175,7 @@
 	Browse to the location in s3
 	Checkmark the model & download it 
 	Copy the model to .../cs_video_processor/models/
-22. Run `model_evaluation_custom_pp.ipynb`
+25. Run `model_evaluation_custom_pp.ipynb`
 
 	In the Settings section (last section) set model_path and dataset according to the model and dataset's path/name:
   
