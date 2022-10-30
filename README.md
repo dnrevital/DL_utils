@@ -39,7 +39,7 @@
   
 	b. open `remove_mask_multi.ipynb`, in the Settings section set the src_dir and dst_dir as follows:
 	
-	src_dir = <.../mask_train_opposite>,
+	src_dir = <.../mask_train/opposite>,
 	dst_dir = <.../opposite_src> -
 	
 	in addition, comment/uncomment lines 3 to 10 as follows:
