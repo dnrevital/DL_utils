@@ -80,9 +80,9 @@ def step_decay(epoch, lr=None):
 
 class CustomDataGenerator(ImageDataGenerator):
     def __init__(self,
-                 augments={'horizontal_flip': 0.1,
-                           'rotate': 0.1,
-                           'mix_channels': 0.1},
+                 augments={'horizontal_flip': 0.3,
+                           'rotate': 0.0,
+                           'mix_channels': 0.3},
                  debug_images=False,
                  **kwargs):
         self.imcount = 0
