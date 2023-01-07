@@ -59,7 +59,7 @@ def get_model(input_shapes, reg, metrics):
     x = MaxPooling2D(pool_size=(4, 4), padding='same')(x)
 
     x = Flatten()(x)
-    x = Dropout(0.2)(x)
+    x = Dropout(0.5)(x)
     out = Dense(1, activation='sigmoid', kernel_regularizer=l1(0.01), bias_regularizer=l1(0.01))(x)
 
     model = Model([inp1, inp2, inp3], out)
@@ -80,9 +80,9 @@ def step_decay(epoch, lr=None):
 
 class CustomDataGenerator(ImageDataGenerator):
     def __init__(self,
-                 augments={'horizontal_flip': 0.3,
+                 augments={'horizontal_flip': 0.1,
                            'rotate': 0.0,
-                           'mix_channels': 0.3},
+                           'mix_channels': 0.1},
                  debug_images=False,
                  **kwargs):
         self.imcount = 0
