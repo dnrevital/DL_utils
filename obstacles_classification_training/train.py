@@ -167,7 +167,9 @@ def df_generator(gen,
                  comp_target_size,
                  batch_size,
                  class_mode,
-                 subset):
+                 subset,
+                 black_mask_augment=0.3):
+    
     train_df_name = dataframe_dir.split('/')[-1] + '.csv'
     train_df_path = os.path.join(dataframe_dir, train_df_name)
     train_df = pd.read_csv(train_df_path)
@@ -183,7 +185,7 @@ def df_generator(gen,
                                      subset=subset)
             
     while True:
-        im1_s, im2_s, im3_s = [], [], []
+        im1_s, im2_s, mask_s = [], [], []
         images, labels, sample_weights = im_gen.next()
 
         for im in images:
@@ -192,23 +194,30 @@ def df_generator(gen,
             im1 = imarr[:, :w//3]
             im2 = imarr[:, w//3:(w*2)//3] 
             im3 = imarr[:, (w*2)//3:] 
-
-            #im1 = cv2.cvtColor(im1, cv2.COLOR_BGR2RGB)
-            #im2 = cv2.cvtColor(im2, cv2.COLOR_BGR2RGB)
-            im3 = cv2.cvtColor(im3, cv2.COLOR_RGB2GRAY)
+            
+            # Replace mask by a black mask according to black_mask_augment probability
+            rand = random.randint(1, 100)/100.
+            if rand < black_mask_augment:
+                h_mask = im3.shape[0]
+                w_mask = im3.shape[1]
+                mask = np.full((h_mask, w_mask, 3), 0, dtype=np.float32)
+            else:
+                mask = np.array(im3)
+                
+            mask = cv2.cvtColor(mask, cv2.COLOR_RGB2GRAY)
 
             im1 /= 255.0
             im2 /= 255.0
-            im3 /= 255.0
+            mask /= 255.0
 
             im1_s.append(im1)
             im2_s.append(im2)
-            im3_s.append(im3)
+            mask_s.append(mask)
                             
         im1_s = np.array(im1_s)
         im2_s = np.array(im2_s)
-        im3_s = np.array(im3_s)
-        yield [im1_s, im2_s, im3_s], labels, sample_weights
+        mask_s = np.array(mask_s)
+        yield [im1_s, im2_s, mask_s], labels, sample_weights
         
 
 # Special generator to generate the 3 parts of the input image as 3 separate input images -- from directory
