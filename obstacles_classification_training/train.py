@@ -168,11 +168,16 @@ def df_generator(gen,
                  batch_size,
                  class_mode,
                  subset,
-                 black_mask_augment=0.3):
+                 black_mask_augment=0.3,
+                 ref_as_current_augment=.2):
     
     train_df_name = dataframe_dir.split('/')[-1] + '.csv'
     train_df_path = os.path.join(dataframe_dir, train_df_name)
     train_df = pd.read_csv(train_df_path)
+    imcount = 0
+    bucket = 'obstacles-classification'
+    key_prefix = 'debug_images/test_3/'
+    client = boto3.client('s3')
     
     im_gen = gen.flow_from_dataframe(dataframe=train_df,
                                      directory=dataset,
@@ -185,10 +190,10 @@ def df_generator(gen,
                                      subset=subset)
             
     while True:
-        im1_s, im2_s, mask_s = [], [], []
+        ref_s, current_s, mask_s = [], [], []
         images, labels, sample_weights = im_gen.next()
 
-        for im in images:
+        for i, im in enumerate(images):
             imarr = np.array(im, dtype='float32')
             w = imarr.shape[1]
             im1 = imarr[:, :w//3]
@@ -204,20 +209,29 @@ def df_generator(gen,
             else:
                 mask = np.array(im3)
                 
+            # If the label is 1 ("obstacle") copy current to ref according to ref_as_current_augment probability
+            rand = random.randint(1, 100)/100.
+            cls = int(labels[i])
+            if cls == 1 and rand < ref_as_current_augment:
+                ref = np.array(im2)
+            else:
+                ref = np.array(im1)
+                
+            current = np.array(im2)          
             mask = cv2.cvtColor(mask, cv2.COLOR_RGB2GRAY)
 
-            im1 /= 255.0
-            im2 /= 255.0
+            ref /= 255.0
+            current /= 255.0
             mask /= 255.0
 
-            im1_s.append(im1)
-            im2_s.append(im2)
+            ref_s.append(ref)
+            current_s.append(current)
             mask_s.append(mask)
                             
-        im1_s = np.array(im1_s)
-        im2_s = np.array(im2_s)
+        ref_s = np.array(ref_s)
+        current_s = np.array(current_s)
         mask_s = np.array(mask_s)
-        yield [im1_s, im2_s, mask_s], labels, sample_weights
+        yield [ref_s, current_s, mask_s], labels, sample_weights
         
 
 # Special generator to generate the 3 parts of the input image as 3 separate input images -- from directory
