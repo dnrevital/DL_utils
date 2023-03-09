@@ -1,2 +1,11 @@
 image, class, IOU, confidence, coordinates
 
+
+
+order of label:
+	
+	BL, TL, TR, BR
+	
+order of score:
+
+	TR, BR, BL, TL

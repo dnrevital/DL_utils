@@ -1,0 +1,12 @@
+dst_name = f'{imname}_{blacks[imname]}_fp_{fp[imname]}_fn_{fn[imname]}_clserr_{clserr[imname]}_low_conf_{low_conf[imname]}_low_iou_{low_iou[imname]}.png'
+
+{imname}_{blacks}_fp_{fp}_fn_{fn}_clserr_{clserr}_low_conf_{low_conf}_low_iou_{low_iou}
+
+when: 
+
+blacks: Total no. of black points
+fp: bbox's appearing in results but not in GT
+fn: bbox's appearing in GT but not in results
+clserr: An overlapping bbox, which its result's class is different then GT's class
+low_conf: An overlapping bbox (iou > 0.5), which its confidence is lower than threshold
+low_iou: A non-overlapping bbox (iou < 0.5), which its confidence is higher than threshold

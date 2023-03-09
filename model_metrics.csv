@@ -1,0 +1,6 @@
+model,dataset,Max Lost Ratio,Total Predictions,TP,% TPTN,% TN,FP,% FP,FN,% FN,Not Decided,% Not Decided
+/home/drevital/cs_video_processor/models/suzuyo,/home/drevital/obstacles_classification_datasets/suzuyo/eval,0,,1585,,45.8154812910597,113,3.2276492430734076,112,3.1990859754355903,87,2.4850042844901457
+/home/drevital/cs_video_processor/models/suzuyo,/home/drevital/obstacles_classification_datasets/suzuyo/eval,0.05,,1317,,44.473007712082264,0,0.0,93,2.6563838903170525,534,15.252784918594687
+/home/drevital/cs_video_processor/models/suzuyo,/home/drevital/obstacles_classification_datasets/suzuyo/eval,0.1,,1317,,42.330762639245926,0,0.0,79,2.2564981433876037,623,17.794915738360466
+/home/drevital/cs_video_processor/models/suzuyo,/home/drevital/obstacles_classification_datasets/suzuyo/eval,0.15,,1317,,39.41730934018852,0,0.0,62,1.7709225935447013,742,21.19394458726078
+/home/drevital/cs_video_processor/models/suzuyo,/home/drevital/obstacles_classification_datasets/suzuyo/eval,0.2,,1318,,37.275064267352185,0,0.0,41,1.1710939731505283,837,23.90745501285347
